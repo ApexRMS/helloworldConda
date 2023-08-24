@@ -7,14 +7,14 @@ e <- ssimEnvironment()
 transferDir <- e$TransferDirectory
 
 # Load RunControl datasheet to be able to set timesteps
-runSettings <- datasheet(myScenario, name = "helloworldSpatial_RunControl")
+runSettings <- datasheet(myScenario, name = "helloworldConda_RunControl")
 
 # Set timesteps - can set to different frequencies if desired
 timesteps <- seq(runSettings$MinimumTimestep, runSettings$MaximumTimestep)
 
 # Load scenario's input datasheet from SyncroSim library into R dataframe
 myInputDataframe <- datasheet(myScenario,
-                              name = "helloworldSpatial_InputDatasheet")
+                              name = "helloworldConda_InputDatasheet")
 
 # Extract model inputs from complete input dataframe
 mMean <- myInputDataframe$mMean
@@ -22,13 +22,13 @@ mSD <- myInputDataframe$mSD
 
 # Load raster input 
 rasterMap <- datasheetSpatRaster(myScenario,
-                                 datasheet = "helloworldSpatial_InputDatasheet",
+                                 datasheet = "helloworldConda_InputDatasheet",
                                  column = "InterceptRasterFile")
 
 # Setup empty R dataframe ready to accept output in SyncroSim datasheet format
 myOutputDataframe <- datasheet(
   myScenario,
-  name = "helloworldSpatial_IntermediateDatasheet"
+  name = "helloworldConda_IntermediateDatasheet"
 )
 
 # For loop through iterations
@@ -67,4 +67,4 @@ for (iter in runSettings$MinimumIteration:runSettings$MaximumIteration) {
 # Save this R dataframe back to the SyncroSim library's output datasheet
 saveDatasheet(myScenario,
               data = myOutputDataframe,
-              name = "helloworldSpatial_IntermediateDatasheet")
+              name = "helloworldConda_IntermediateDatasheet")
