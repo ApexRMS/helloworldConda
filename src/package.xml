@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<package name="helloworldConda" displayName="Example using conda environments" url="https://apexrms.github.io/helloworldEnhanced/" version="1.0.3">
+<package name="helloworldConda" displayName="Example using conda environments" url="https://apexrms.github.io/helloworldEnhanced/" version="1.1.0">
   <transformers>
-    <transformer name="model" displayName="First Model" transformerSpecificOutput="False" isRunnable="True" programName="RScript" programArguments="model.R" configurationSheet="RunControl" condaEnv="rsyncrosim.yml">
+    <transformer name="model" displayName="First Model" transformerSpecificOutput="False" isRunnable="True" programName="RScript" programArguments="model.R" configurationSheet="RunControl" condaEnv="helloworld.yml">
       <pipeline>
         <datafeed name="InputDatasheet" type="Input" />
         <datafeed name="IntermediateDatasheet" type="Output" />
         <datafeed name="RunControl" type="Input" />
       </pipeline>
     </transformer>
-    <transformer name="model2" displayName="Second Model" transformerSpecificOutput="False" isRunnable="True" programName="RScript" programArguments="model2.R" configurationSheet="RunControl" condaEnv="rsyncrosim.yml">
+    <transformer name="model2" displayName="Second Model" transformerSpecificOutput="False" isRunnable="True" programName="RScript" programArguments="model2.R" configurationSheet="RunControl" condaEnv="helloworld.yml">
       <pipeline>
         <datafeed name="IntermediateDatasheet" type="Input" />
         <datafeed name="OutputDatasheet" type="Output" />
