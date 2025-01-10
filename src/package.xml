@@ -1,112 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<package name="helloworldConda" displayName="Example using conda environments" url="https://apexrms.github.io/helloworldEnhanced/" version="1.1.0">
-  <transformers>
-    <transformer name="model" displayName="First Model" transformerSpecificOutput="False" isRunnable="True" programName="RScript" programArguments="model.R" configurationSheet="RunControl" condaEnv="helloworld.yml">
-      <pipeline>
-        <datafeed name="InputDatasheet" type="Input" />
-        <datafeed name="IntermediateDatasheet" type="Output" />
-        <datafeed name="RunControl" type="Input" />
-      </pipeline>
-    </transformer>
-    <transformer name="model2" displayName="Second Model" transformerSpecificOutput="False" isRunnable="True" programName="RScript" programArguments="model2.R" configurationSheet="RunControl" condaEnv="helloworld.yml">
-      <pipeline>
-        <datafeed name="IntermediateDatasheet" type="Input" />
-        <datafeed name="OutputDatasheet" type="Output" />
-        <datafeed name="RunControl" type="Input" />
-      </pipeline>
-    </transformer>
-    <transformer name="Primary" isPrimary="True" isPipelineBased="True">
-      <include>
-        <transformer name="model" />
-        <transformer name="model2" />
-        <transformer name="corestime_Runtime" />
-      </include>
-      <datafeeds>
-        <datafeed name="RunControl" displayName="Run Control" dataScope="Scenario">
-          <datasheets>
-            <datasheet name="RunControl" displayName="Run Control" isSingleRow="True">
-              <columns>
-                <column name="RunControlID" dataType="Integer" isPrimary="True" />
-                <column name="ScenarioID" dataType="Integer" />
-                <column name="MinimumIteration" displayName="Minimum Iteration" dataType="Integer" validationType="WholeNumber" validationCondition="GreaterEqual" formula1="1" isVisible="False" defaultValue="1" />
-                <column name="MaximumIteration" displayName="Maximum Iteration" dataType="Integer" validationType="WholeNumber" validationCondition="GreaterEqual" formula1="1" defaultValue="5" />
-                <column name="MinimumTimestep" displayName="Minimum Timestep" dataType="Integer" validationType="WholeNumber" validationCondition="GreaterEqual" formula1="0" defaultValue="0" />
-                <column name="MaximumTimestep" displayName="Maximum Timestep" dataType="Integer" validationType="WholeNumber" validationCondition="GreaterEqual" formula1="0" defaultValue="10" />
-              </columns>
-              <defaultRecords />
-            </datasheet>
-          </datasheets>
-        </datafeed>
-        <datafeed name="InputDatasheet" displayName="Inputs" dataScope="Scenario">
-          <datasheets>
-            <datasheet name="InputDatasheet" displayName="Inputs" isSingleRow="True">
-              <columns>
-                <column name="InputDatasheetID" dataType="Integer" isPrimary="True" />
-                <column name="ScenarioID" dataType="Integer" />
-                <column name="mMean" displayName="Slope Distribution Mean" dataType="Double" validationType="Decimal" validationCondition="None" />
-                <column name="mSD" displayName="Slope Distribution Standard Deviation" dataType="Double" validationType="Decimal" validationCondition="None" />
-                <column name="InterceptRasterFile" displayName="Intercept Raster File" dataType="String" isExternalFile="True" externalFileFilter="GeoTIFF Files (*.tif)|*.tif|All Files (*.*)|*.*" isRaster="True" />
-              </columns>
-              <defaultRecords />
-            </datasheet>
-          </datasheets>
-        </datafeed>
-        <datafeed name="IntermediateDatasheet" displayName="Intermediates" dataScope="Scenario">
-          <datasheets>
-            <datasheet name="IntermediateDatasheet" displayName="Intermediates">
-              <columns>
-                <column name="IntermediateDatasheetID" dataType="Integer" isPrimary="True" />
-                <column name="ScenarioID" dataType="Integer" isCompositeIndex="True" />
-                <column name="Iteration" dataType="Integer" validationType="WholeNumber" validationCondition="GreaterEqual" formula1="1" format="d" isCompositeIndex="True" />
-                <column name="Timestep" dataType="Integer" validationType="WholeNumber" validationCondition="GreaterEqual" formula1="0" format="d" isCompositeIndex="True" />
-                <column name="y" displayName="Value for y" dataType="Double" validationType="Decimal" validationCondition="None" />
-                <column name="OutputRasterFile" displayName="Output Raster File" dataType="String" isExternalFile="True" externalFileFilter="GeoTIFF Files (*.tif)|*.tif|All Files (*.*)|*.*" isRaster="True" />
-              </columns>
-              <defaultRecords />
-            </datasheet>
-          </datasheets>
-        </datafeed>
-        <datafeed name="OutputDatasheet" displayName="Outputs" dataScope="Scenario">
-          <datasheets>
-            <datasheet name="OutputDatasheet" displayName="Outputs">
-              <columns>
-                <column name="OutputDatasheetID" dataType="Integer" isPrimary="True" />
-                <column name="ScenarioID" dataType="Integer" isCompositeIndex="True" />
-                <column name="Iteration" dataType="Integer" validationType="WholeNumber" validationCondition="GreaterEqual" formula1="1" format="d" isCompositeIndex="True" />
-                <column name="Timestep" dataType="Integer" validationType="WholeNumber" validationCondition="GreaterEqual" formula1="0" format="d" isCompositeIndex="True" />
-                <column name="yCum" displayName="Cumulative value for y" dataType="Double" validationType="Decimal" validationCondition="None" />
-              </columns>
-              <defaultRecords />
-            </datasheet>
-          </datasheets>
-        </datafeed>
-      </datafeeds>
-    </transformer>
-  </transformers>
-  <layouts>
-        <layout name="coreforms_ResultTransformers">
-            <item name="corestime_ChartTransformer"/>
-            <item name="corestime_MapTransformer"/>
-        </layout>
-        <layout name="coreforms_LibraryDatafeeds">
-            <group name="Options">
-                <item name="core_Rconfig"/>
-                <item name="core_Options" displayName="General"/>
-            </group>
-        </layout>
-        <layout name="coreforms_ScenarioDatafeeds">
-            <item name="RunControl"/>
-            <item name="InputDatasheet"/>
-            <item name="IntermediateDatasheet"/>
-            <item name="OutputDatasheet"/>
-        </layout>
-        <layout name="corestimeforms_Charts" configurationSheet="RunControl">
-            <item name="y" displayName="y" dataSheet="IntermediateDatasheet" column="y"/>
-            <item name="yCum" displayName="Cumulative y" dataSheet="OutputDatasheet" column="yCum"/>
-        </layout>
-        <layout name="corestimeforms_Maps" configurationSheet="RunControl">
-            <item name="RasterMap" displayName="Output Raster Map" dataSheet="IntermediateDatasheet" column="OutputRasterFile"/>
-        </layout>
-  </layouts>
-  <views />
+<package name="helloworldConda" displayName="Hello World Spatial (R)" description="Example demonstrating how to use spatial data with an R model" version="2.0.0" url="https://apexrms.github.io/helloworldEnhanced/">
+
+  <!--Scenario Datasheets-->
+
+  <!--Run Control-->
+  <dataSheet name="RunControl" displayName="Run Control" isRunControl="True" timestepTitle="Timestep" showMinIteration="False"></dataSheet>
+
+  <!--First Model Inputs-->
+  <dataSheet name="InputDatasheet" displayName="Inputs" isSingleRow="True">
+    <column name="mMean" dataType="Double" displayName="Slope Distribution Mean"/>
+    <column name="mSD" dataType="Double" displayName="Slope Distribution Standard Deviation"/>
+    <column name="InterceptRasterFile" displayName="Intercept Raster File" dataType="String" isExternalFile="True" isRaster="True"/>
+  </dataSheet>
+
+  <!--First Model Outputs / Second Model Inputs-->
+  <dataSheet name="IntermediateDatasheet" displayName="Intermediate Outputs" hasIteration="True" hasTimestep="True">
+    <column name="y" dataType="Double" displayName="Value for y"/>
+    <column name="OutputRasterFile" displayName="Output Raster File" dataType="String" isExternalFile="True" isRaster="True" bandColumn="Band" filenameCode="hw"/>
+    <column name="Band" displayName="Band" dataType="Integer" allowDbNull="True" isOptional="True"/>
+  </dataSheet>
+
+  <!--Second Model Outputs-->
+  <dataSheet name="OutputDatasheet" displayName="Outputs" hasIteration="True" hasTimestep="True">
+    <column name="yCum" dataType="Double" displayName="Cumulative y"/>
+  </dataSheet>
+
+  <!--Transformers-->
+
+  <!--First Transformer-->
+  <transformer name="firstModel" displayName="First Model" programArguments="model.R" condaEnv="helloworldR.yml" condaEnvVersion="1">
+    <dataSheet name="RunControl" type="Input"/>
+    <dataSheet name="InputDatasheet" type="Input"/>
+    <dataSheet name="IntermediateDatasheet" type="Output"/>
+  </transformer>
+
+  <!--Second Transformer-->
+  <transformer name="secondModel" displayName="Second Model" programArguments="model2.R" condaEnv="helloworldR.yml" condaEnvVersion="1">
+    <dataSheet name="RunControl" type="Input"/>
+    <dataSheet name="IntermediateDatasheet" type="Input"/>
+    <dataSheet name="OutputDatasheet" type="Output"/>
+  </transformer>
+
+  <!--Layouts-->
+
+  <!--Scenario Datafeeds Layout-->
+  <layout type="Scenario">
+    <item name="RunControl"/>
+    <item name="InputDatasheet"/>
+    <item name="IntermediateDatasheet"/>
+    <item name="OutputDataSheet"/>
+  </layout>
+
+  <!--Charts Layout-->
+  <layout type="Chart">
+    <item name="y" displayName="y" dataSheet="IntermediateDatasheet" column="y"/>
+    <item name="yCum" displayName="Cumulative y" dataSheet="OutputDatasheet" column="yCum"/>
+  </layout>
+
+  <layout type="Map">
+    <item name="RasterMap" displayName="Output Raster Map" dataSheet="IntermediateDatasheet" column="OutputRasterFile"/>
+  </layout>
+
 </package>
