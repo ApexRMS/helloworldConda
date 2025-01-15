@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<package name="helloworldConda" displayName="Hello World (R)" description="Example demonstrating how to create a package" version="2.0.0" url="https://apexrms.github.io/helloworldEnhanced/">
+<package name="helloworldConda" displayName="Hello World Conda (R)" description="Example demonstrating how to create a package with conda" version="2.0.0" url="https://apexrms.github.io/helloworldEnhanced/">
 
 <!--Scenario Datasheets-->
 
